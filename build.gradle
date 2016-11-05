@@ -3,6 +3,9 @@
 buildscript {
     repositories {
         jcenter()
+
+
+        mavenCentral()  ///facebook shit
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
