@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        Intent intent = new Intent(this, Authorization.class);
+        Intent intent = new Intent(this, Auth_buttons.class);
         startActivity(intent);
 
 

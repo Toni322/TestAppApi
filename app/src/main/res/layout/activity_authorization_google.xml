@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.examplenasa.roma.mytestapp.Authorization">
+    tools:context="com.examplenasa.roma.mytestapp.Authorization_Google">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,15 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <com.facebook.login.widget.LoginButton
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logout_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/button_log_in_facebook" />
+
 
     <com.google.android.gms.common.SignInButton
         android:text="@+id/sign_in_button"
@@ -44,23 +36,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="26dp" />
 
-    <com.twitter.sdk.android.core.identity.TwitterLoginButton
-        android:id="@+id/button_log_in_twitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_log_in_facebook"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp" />
 
-    <Button
-        android:text="LogOutTwitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_twitter_log_out"
-        android:layout_below="@+id/button_log_in_twitter"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp" />
 
 </RelativeLayout>
