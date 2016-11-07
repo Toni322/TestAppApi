@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 24
@@ -29,8 +44,29 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.8.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile('com.twitter.sdk.android:twitter:2.1.1@aar') {
+        transitive = true;
+    }
 
-    testCompile 'junit:junit:4.12'
+//    testCom
+ //   compile('com.twitter.sdk.android:twitter:2.1.1@aar') {
+    //    transitive = true;
+   // }pile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
 }
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}

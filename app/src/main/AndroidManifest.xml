@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.examplenasa.roma.mytestapp">
-    <uses-permission android:name="android.permission.INTERNET"/>//facebook
 
-    <activity android:name="com.facebook.FacebookActivity"
-        android:configChanges=
-            "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar"
-        android:label="@string/app_name" /> //facebook
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    //facebook
+    <activity
+        android:name="com.facebook.FacebookActivity"
+        android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    //facebook
     <application
         android:name=".application.MyTestApplication"
         android:allowBackup="true"
@@ -16,19 +17,34 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>//facebook
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        //facebook
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        </activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".Authorization" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dcfd17e7950e6712cc5a16a8f2af01f1613a33e5" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dcfd17e7950e6712cc5a16a8f2af01f1613a33e5" />
+
     </application>
 
 </manifest>
