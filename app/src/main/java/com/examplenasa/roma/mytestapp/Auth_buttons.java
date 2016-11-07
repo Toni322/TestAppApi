@@ -42,7 +42,8 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
                 break;
             case  R.id.button_log_in_twitter:
-                ///////
+                intent = new Intent(this, Authorization_Twitter.class);
+                startActivity(intent);
                 break;
             case  R.id.button_log_in_linkedin:
                 //////////

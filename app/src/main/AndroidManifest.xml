@@ -30,8 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider android:authorities="com.facebook.app.FacebookContentProvider1367552779930511"
+
+        <provider
             android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1367552779930511"
             android:exported="true" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -47,9 +49,10 @@
             android:name="io.fabric.ApiKey"
             android:value="dcfd17e7950e6712cc5a16a8f2af01f1613a33e5" />
 
-
         <activity android:name=".Auth_buttons" />
-        <activity android:name=".Authorization_Facebook"></activity>
+        <activity android:name=".Authorization_Facebook" />
+        <activity android:name=".Authorization_Twitter" />
+        <activity android:name=".BaseActivity"></activity>
     </application>
 
 </manifest>

@@ -10,6 +10,26 @@
     <string name="button_sign_in_linkedln">Linkedin</string>
     <string name="button_sign_in_twitter">Twitter</string>
 
+    <string name="button_sign_out_twitter">LogOut</string>
+
+    <string name="loading">Loading…</string>
+
+
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+
+    <string name="twitter_status_fmt">Twitter User: %s</string>
+    <string name="twitter_title_text">Twitter Login</string>
+
+    <string name="firebaseui_status_fmt">Firebase User: %s</string>
+    <string name="firebaseui_title_text">FirebaseUI Auth</string>
+
+    <string name="sign_out">Sign Out</string>
+    <string name="signed_out">Signed Out</string>
+
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+
     <string name="text_view_hello_user">Hello</string>
     <string name="title_activity_authorization__twitter">Authorization_Twitter</string>
 </resources>

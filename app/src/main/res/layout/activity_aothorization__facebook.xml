@@ -10,38 +10,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.examplenasa.roma.mytestapp.Authorization_Facebook">
 
+    <Button
+        android:text="Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_sign_out_facebook"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="34dp" />
+
     <com.facebook.login.widget.LoginButton
         android:text="@string/button_sign_in_facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="44dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="42dp"
-        android:id="@+id/button_sign_in_facebook" />
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_sign_in_facebook"
-        android:layout_alignLeft="@+id/button_sign_in_facebook"
-        android:layout_alignStart="@+id/button_sign_in_facebook"
-        android:layout_marginTop="33dp"
-        android:id="@+id/button_sign_out_facebook" />
+        android:id="@+id/button_sign_in_facebook"
+        android:layout_above="@+id/button_sign_out_facebook"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
 
     <TextView
-        android:text="Hello"
+        android:text="Details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:id="@+id/facebookDetailTextView"
+        android:layout_above="@+id/button_sign_in_facebook"
+        android:layout_alignRight="@+id/facebookStatusTextView"
+        android:layout_alignEnd="@+id/facebookStatusTextView"
+        android:layout_marginBottom="86dp" />
+
+    <TextView
+        android:text="Status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/facebookStatusTextView"
+        android:layout_above="@+id/facebookDetailTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:id="@+id/textStatus_Facebook" />
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp" />
 
 
 </RelativeLayout>
