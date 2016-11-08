@@ -23,7 +23,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
         //facebook
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:label="Google Sheets API Android Quickstart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +54,8 @@
         <activity android:name=".Auth_buttons" />
         <activity android:name=".Authorization_Facebook" />
         <activity android:name=".Authorization_Twitter" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".SheetsGoogle"></activity>
     </application>
 
 </manifest>
