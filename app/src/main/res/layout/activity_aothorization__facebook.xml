@@ -34,20 +34,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/facebookDetailTextView"
         android:layout_above="@+id/button_sign_in_facebook"
-        android:layout_alignRight="@+id/facebookStatusTextView"
-        android:layout_alignEnd="@+id/facebookStatusTextView"
-        android:layout_marginBottom="86dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="129dp" />
 
     <TextView
         android:text="Status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/facebookStatusTextView"
-        android:layout_above="@+id/facebookDetailTextView"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_alignBaseline="@+id/facebookDetailTextView"
+        android:layout_alignBottom="@+id/facebookDetailTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp" />
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
