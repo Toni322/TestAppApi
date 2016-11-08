@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_aothorization__facebook"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.examplenasa.roma.mytestapp.Authorization_Facebook">
+
+    <Button
+        android:text="Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_sign_out_facebook"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="34dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:text="@string/button_sign_in_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_sign_in_facebook"
+        android:layout_above="@+id/button_sign_out_facebook"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
+
+    <TextView
+        android:text="Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/facebookDetailTextView"
+        android:layout_above="@+id/button_sign_in_facebook"
+        android:layout_alignRight="@+id/facebookStatusTextView"
+        android:layout_alignEnd="@+id/facebookStatusTextView"
+        android:layout_marginBottom="86dp" />
+
+    <TextView
+        android:text="Status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/facebookStatusTextView"
+        android:layout_above="@+id/facebookDetailTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp" />
+
+
+</RelativeLayout>
