@@ -32,4 +32,7 @@
 
     <string name="text_view_hello_user">Hello</string>
     <string name="title_activity_authorization__twitter">Authorization_Twitter</string>
+
+    <string name="spreadSheetsID">"1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4"</string>
+    <string name="sheetsRange">Class Data</string>
 </resources>

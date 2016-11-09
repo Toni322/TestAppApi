@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
+import com.google.api.client.googleapis.notifications.ResourceStates;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -57,8 +58,8 @@ public class SheetsGoogle extends Activity
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private static final String BUTTON_TEXT = "Call Google Sheets API";
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
+    private static final String PREF_ACCOUNT_NAME = "starikhottabichrom";
+    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
 
     /**
      * Create the main activity.
@@ -284,8 +285,7 @@ public class SheetsGoogle extends Activity
     /**
      * Attempt to resolve a missing, out-of-date, invalid or disabled Google
      * Play Services installation via a user dialog, if possible.
-     */
-    private void acquireGooglePlayServices() {
+     */    private void acquireGooglePlayServices() {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
@@ -316,6 +316,7 @@ public class SheetsGoogle extends Activity
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
+
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.sheets.v4.Sheets mService = null;
         private Exception mLastError = null;
@@ -336,6 +337,7 @@ public class SheetsGoogle extends Activity
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
+                //setDataToApi();
                 return getDataFromApi();
             } catch (Exception e) {
                 mLastError = e;
@@ -344,6 +346,8 @@ public class SheetsGoogle extends Activity
             }
         }
 
+
+
         /**
          * Fetch a list of names and majors of students in a sample spreadsheet:
          * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
@@ -351,20 +355,37 @@ public class SheetsGoogle extends Activity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
-            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            String range = "Class Data!A2:E";
+            String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
+            String range = "Sheet";
+
+
+
+
+
+
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
                     .get(spreadsheetId, range)
                     .execute();
             List<List<Object>> values = response.getValues();
             if (values != null) {
-                results.add("Name, Major");
+                results.add("Universe, Teacher, Name");
                 for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(4));
+                    results.add(row.get(0) + ", " + row.get(1)+", " + row.get(2));
                 }
             }
+            List<String> myRecc = new ArrayList<String>();
+
+            myRecc.add("huy, pizda, dada");
+           ValueRange valueRange = new ValueRange();
+            valueRange.setValues(values);
+           mService.spreadsheets().values().append(spreadsheetId,range,valueRange).setValueInputOption("RAW");
+          //  mService.spreadsheets().values().update(spreadsheetId,range,valueRange).execute();
             return results;
+        }
+
+        private void setDataToApi() throws IOException {
+
         }
 
 
@@ -408,3 +429,4 @@ public class SheetsGoogle extends Activity
         }
     }
 }
+

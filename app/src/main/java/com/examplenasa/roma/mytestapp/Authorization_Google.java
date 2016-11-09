@@ -65,9 +65,12 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
         switch (v.getId()){
             case R.id.sign_in_button:
                 signIn();
+
                 break;
             case R.id.logout_button:
-                signOut();
+               // signOut();
+                Intent intent = new Intent(this, SheetsGoogle.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -102,7 +105,7 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
 
         if(result.isSuccess()){
             GoogleSignInAccount acc = result.getSignInAccount();
-            statusTextView.setText("Zdarowa "+ acc.getDisplayName());
+            statusTextView.setText("Google User: "+ acc.getDisplayName());
         }else{
 
         }
