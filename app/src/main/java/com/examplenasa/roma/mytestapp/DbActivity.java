@@ -12,8 +12,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
 
 public class DbActivity extends Activity implements OnClickListener {
 
@@ -44,7 +48,7 @@ public class DbActivity extends Activity implements OnClickListener {
         etName = (EditText) findViewById(R.id.etName);
         etTeacher = (EditText) findViewById(R.id.etEmail);
 
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBHelper(this);
 
@@ -81,8 +85,28 @@ public class DbActivity extends Activity implements OnClickListener {
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
 
                 Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+
+                findViewById(R.id.layout_input).setVisibility(View.VISIBLE);
+                findViewById(R.id.list_db).setVisibility(View.GONE);
+
                 break;
+
+
             case R.id.btnRead:
+                String[] names = { "Иван", "Марья", "Петр", "Антон", "Даша", "Борис",
+                        "Костя", "Игорь", "Анна", "Денис", "Андрей" };
+
+                ArrayList list = new ArrayList();
+
+
+
+                ListView lvMain = (ListView) findViewById(R.id.list_db);
+
+
+
+
+
+
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
                 // делаем запрос всех данных из таблицы mytable, получаем Cursor
                 Cursor c = db.query("mytable", null, null, null, null, null, null, null);
@@ -104,12 +128,29 @@ public class DbActivity extends Activity implements OnClickListener {
                                         ", email = " + c.getString(emailColIndex)+
                                        ", rating = " + c.getString(ratingColIndex)
                         );
+
+                        list.add(  "ID = " + c.getInt(idColIndex) +
+                                ", name = " + c.getString(nameColIndex) +
+                                ", email = " + c.getString(emailColIndex)+
+                                ", rating = " + c.getString(ratingColIndex));
+
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
                     } while (c.moveToNext());
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
+
+
+                // создаем адаптер
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_list_item_1, list);
+
+                // присваиваем адаптер списку
+                lvMain.setAdapter(adapter);
+               findViewById(R.id.layout_input).setVisibility(View.GONE);
+                findViewById(R.id.list_db).setVisibility(View.VISIBLE);
+
                 break;
             case R.id.btnClear:
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
