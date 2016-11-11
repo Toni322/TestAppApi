@@ -24,9 +24,9 @@ public class DbActivity extends Activity implements OnClickListener {
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
-    EditText etName, etTeacher;
+    EditText etUniversity, etTeacher, etComment;
 
-    RatingBar ratingBar;
+    RatingBar ratingBar1, ratingBar2, ratingBar3, ratingBar4, ratingBar5;
 
     DBHelper dbHelper;
 
@@ -45,10 +45,16 @@ public class DbActivity extends Activity implements OnClickListener {
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
-        etName = (EditText) findViewById(R.id.etName);
+        etUniversity = (EditText) findViewById(R.id.etUniversity);
         etTeacher = (EditText) findViewById(R.id.etEmail);
+        etComment = (EditText) findViewById(R.id.editComment);
 
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
+
+        ratingBar1 = (RatingBar) findViewById(R.id.ratingBar1);
+        ratingBar2 = (RatingBar) findViewById(R.id.ratingBar2);
+        ratingBar3 = (RatingBar) findViewById(R.id.ratingBar3);
+        ratingBar4 = (RatingBar) findViewById(R.id.ratingBar4);
+        ratingBar5 = (RatingBar) findViewById(R.id.ratingBar5);
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBHelper(this);
 
@@ -58,29 +64,36 @@ public class DbActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        // создаем объект для данных
         ContentValues cv = new ContentValues();
 
-        // получаем данные из полей ввода
-        String name = etName.getText().toString();
+        String name = etUniversity.getText().toString();
         String email = etTeacher.getText().toString();
-        float a = ratingBar.getRating();
-        String rating = String.valueOf(a);
-        // подключаемся к БД
+
+        String rating1 = String.valueOf(ratingBar1.getRating());
+        String rating2 = String.valueOf(ratingBar2.getRating());
+        String rating3 = String.valueOf(ratingBar3.getRating());
+        String rating4 = String.valueOf(ratingBar4.getRating());
+        String rating5 = String.valueOf(ratingBar5.getRating());
+
+        String comment = etComment.getText().toString();
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
         switch (v.getId()) {
             case R.id.btnAdd:
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
-                // подготовим данные для вставки в виде пар: наименование столбца - значение
 
 
-                cv.put("name", name);
-                cv.put("email", email);
-                cv.put("rating",rating);
+                cv.put("university", name);
+                cv.put("teacher", email);
+                cv.put("rating1",rating1);
+                cv.put("rating2",rating2);
+                cv.put("rating3",rating3);
+                cv.put("rating4",rating4);
+                cv.put("rating5",rating5);
+                cv.put("comment",comment);
 
-                // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
 
@@ -93,61 +106,63 @@ public class DbActivity extends Activity implements OnClickListener {
 
 
             case R.id.btnRead:
-                String[] names = { "Иван", "Марья", "Петр", "Антон", "Даша", "Борис",
-                        "Костя", "Игорь", "Анна", "Денис", "Андрей" };
-
                 ArrayList list = new ArrayList();
-
-
-
                 ListView lvMain = (ListView) findViewById(R.id.list_db);
 
 
 
-
-
-
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
-                // делаем запрос всех данных из таблицы mytable, получаем Cursor
+
                 Cursor c = db.query("mytable", null, null, null, null, null, null, null);
 
-                // ставим позицию курсора на первую строку выборки
-                // если в выборке нет строк, вернется false
+
                 if (c.moveToFirst()) {
 
-                    // определяем номера столбцов по имени в выборке
+
                     int idColIndex = c.getColumnIndex("id");
-                    int nameColIndex = c.getColumnIndex("name");
-                    int emailColIndex = c.getColumnIndex("email");
-                    int ratingColIndex = c.getColumnIndex("rating");
+                    int universeColIndex = c.getColumnIndex("university");
+                    int teacherColIndex = c.getColumnIndex("teacher");
+                    int rating1ColIndex = c.getColumnIndex("rating1");
+                    int rating2ColIndex = c.getColumnIndex("rating2");
+                    int rating3ColIndex = c.getColumnIndex("rating3");
+                    int rating4ColIndex = c.getColumnIndex("rating4");
+                    int rating5ColIndex = c.getColumnIndex("rating5");
                     do {
-                        // получаем значения по номерам столбцов и пишем все в лог
+
                         Log.d(LOG_TAG,
                                 "ID = " + c.getInt(idColIndex) +
-                                        ", name = " + c.getString(nameColIndex) +
-                                        ", email = " + c.getString(emailColIndex)+
-                                       ", rating = " + c.getString(ratingColIndex)
+                                        ", university = " + c.getString(universeColIndex) +
+                                        ", teacher = " + c.getString(teacherColIndex)+
+                                        ", rating1 = " + c.getString(rating1ColIndex)+
+                                        ", rating2 = " + c.getString(rating2ColIndex)+
+                                        ", rating3 = " + c.getString(rating3ColIndex)+
+                                        ", rating4 = " + c.getString(rating4ColIndex)+
+                                        ", rating5 = " + c.getString(rating5ColIndex)
                         );
 
-                        list.add(  "ID = " + c.getInt(idColIndex) +
-                                ", name = " + c.getString(nameColIndex) +
-                                ", email = " + c.getString(emailColIndex)+
-                                ", rating = " + c.getString(ratingColIndex));
+                        list.add(    "ID = " + c.getInt(idColIndex) +
+                                ", Навчальний заклад: " + c.getString(universeColIndex) +
+                                ", Викладач: " + c.getString(teacherColIndex)+
+                                ", Оцінки = ( " + c.getString(rating1ColIndex)+
+                                ", " + c.getString(rating2ColIndex)+
+                                ", " + c.getString(rating3ColIndex)+
+                                ", " + c.getString(rating4ColIndex)+
+                                ", " + c.getString(rating5ColIndex)+" )");
 
-                        // переход на следующую строку
-                        // а если следующей нет (текущая - последняя), то false - выходим из цикла
+
                     } while (c.moveToNext());
                 } else
                     Log.d(LOG_TAG, "0 rows");
                 c.close();
 
 
-                // создаем адаптер
+                // адаптер
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                         android.R.layout.simple_list_item_1, list);
 
-                // присваиваем адаптер списку
+                //адаптер списку
                 lvMain.setAdapter(adapter);
+
                findViewById(R.id.layout_input).setVisibility(View.GONE);
                 findViewById(R.id.list_db).setVisibility(View.VISIBLE);
 
@@ -179,17 +194,16 @@ public class DbActivity extends Activity implements OnClickListener {
             // создаем таблицу с полями
             db.execSQL("create table mytable ("
                     + "id integer primary key autoincrement,"
-                    + "name text,"
-                    + "email text,"
-                    + "rating text"
+                    + "university text,"
+                    + "teacher text,"
+                    + "rating1 text,"
+                    + "rating2 text,"
+                    + "rating3 text,"
+                    + "rating4 text,"
+                    + "rating5 text,"
+                    + "comment text"
                     +");");
 
-            ContentValues cvv = new ContentValues();
-            cvv.put("name", "NAMEEE");
-            cvv.put("email", "MAIL");
-            cvv.put("rating", "100");
-
-            db.insert("mytable",null,cvv);
         }
 
         @Override

@@ -28,7 +28,6 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
     Button signOutButton;
     TextView statusTextView;
     GoogleApiClient mGoogleApiClient;
-    Button sqliteButton;
 
 
     public  static final String TAG = "SignActivity";
@@ -58,8 +57,6 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
         signOutButton = (Button) findViewById(R.id.button_sign_out_google);
         signOutButton.setOnClickListener(this);
 
-        sqliteButton = (Button) findViewById(R.id.button_sqlite);
-        sqliteButton.setOnClickListener(this);
     }
 
 

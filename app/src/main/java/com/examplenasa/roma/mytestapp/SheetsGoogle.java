@@ -356,7 +356,7 @@ public class SheetsGoogle extends Activity
          */
         private List<String> getDataFromApi() throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet";
+            String range = "Sheet!A2:C5";
 
 
 
@@ -369,22 +369,19 @@ public class SheetsGoogle extends Activity
                     .execute();
             List<List<Object>> values = response.getValues();
             if (values != null) {
-                results.add("Universe, Teacher, Name");
+                results.add("Universe, Teacher, Rating");
                 for (List row : values) {
                     results.add(row.get(0) + ", " + row.get(1)+", " + row.get(2));
                 }
             }
-            List<Object> myRecc = new ArrayList<Object>();
-
-            myRecc.add("eee, pea, dada");
-
-                      List<List<Object>> valuuu = new ArrayList<List<Object>>();
 
 
-            valuuu.add(myRecc);
-
-            ValueRange valueRange = new ValueRange();
-            valueRange.setValues(valuuu);
+//
+//            List<Object> myRecc = new ArrayList<Object>();
+//            List<List<Object>> valuuu = new ArrayList<List<Object>>();
+//            valuuu.add(myRecc);
+//            ValueRange valueRange = new ValueRange();
+//            valueRange.setValues(valuuu);
 
 //BatchUpdateValuesRequest
 
