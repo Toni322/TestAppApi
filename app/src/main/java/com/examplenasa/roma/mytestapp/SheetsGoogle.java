@@ -374,20 +374,42 @@ public class SheetsGoogle extends Activity
                     results.add(row.get(0) + ", " + row.get(1)+", " + row.get(2));
                 }
             }
-            List<String> myRecc = new ArrayList<String>();
+            List<Object> myRecc = new ArrayList<Object>();
 
             myRecc.add("huy, pizda, dada");
-           ValueRange valueRange = new ValueRange();
-            valueRange.setValues(values);
-           mService.spreadsheets().values().append(spreadsheetId,range,valueRange).setValueInputOption("RAW");
-          //  mService.spreadsheets().values().update(spreadsheetId,range,valueRange).execute();
+
+                      List<List<Object>> valuuu = new ArrayList<List<Object>>();
+            Object qwe = new Object();
+
+            values.add(myRecc);
+            ValueRange valueRange = new ValueRange();
+            valueRange.setValues(valuuu);
+
+//BatchUpdateValuesRequest
+
+        //    mService.spreadsheets().values().batchUpdate(spreadsheetId);
+         //  mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
+           // mService.spreadsheets().values().update(spreadsheetId,range,valueRange).setValueInputOption("RAW");
+
+
+
             return results;
         }
 
-        private void setDataToApi() throws IOException {
+        BatchUpdateSpreadsheetResponse executeBatchRequest(Request request) throws IOException {
+
+            String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
+            String range = "Sheet";
+            List<Request> requests = new ArrayList<>();
+            requests.add( request );
+
+            BatchUpdateSpreadsheetRequest batchRequest = new BatchUpdateSpreadsheetRequest();
+            batchRequest.setRequests( requests );
+
+
+            return  mService.spreadsheets().batchUpdate(spreadsheetId, batchRequest).execute();
 
         }
-
 
 
         @Override

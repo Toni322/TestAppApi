@@ -10,39 +10,58 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.examplenasa.roma.mytestapp.Authorization_Facebook">
 
-    <Button
-        android:text="Logout"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_sign_out_facebook"
-        android:layout_below="@+id/button_sign_in_facebook"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
-
-    <TextView
-        android:text="Status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/facebookStatusTextView"
-        android:layout_below="@+id/button_sign_out_facebook"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true">
 
-    <TextView
-        android:text="Details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/facebookDetailTextView"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/facebookStatusTextView" />
+        <TextView
+            android:text="Details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebookDetailTextView"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/facebookStatusTextView" />
 
-    <com.facebook.login.widget.LoginButton
-        android:text="@string/button_sign_in_facebook"
-        android:layout_width="wrap_content"
+        <TextView
+            android:text="Status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebookStatusTextView"
+            android:layout_below="@+id/button_sign_out_facebook"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_sign_in_facebook"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.facebook.login.widget.LoginButton
+            android:text="@string/button_sign_in_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_sign_in_facebook"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_sign_out_facebook"
+            android:layout_below="@+id/button_sign_in_facebook"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

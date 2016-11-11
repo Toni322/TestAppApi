@@ -8,43 +8,61 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.examplenasa.roma.mytestapp.Authorization_Twitter">
+    tools:context="com.examplenasa.roma.mytestapp.Authorization_Twitter"
+    >
 
-    <Button
-        android:text="@string/button_sign_out_twitter"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_sign_out_twitter"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <com.twitter.sdk.android.core.identity.TwitterLoginButton
-        android:text="@string/button_sign_in_twitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_sign_in_twitter"
-        android:layout_alignBottom="@+id/button_sign_out_twitter"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="74dp" />
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:text="@string/button_sign_in_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_sign_in_twitter"
+            android:layout_alignBottom="@+id/button_sign_out_twitter"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="12dp" />
 
-    <TextView
-        android:text="DetailTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/twitterDetailTextView"
-        android:layout_above="@+id/button_sign_in_twitter"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="39dp" />
+        <Button
+            android:text="@string/button_sign_out_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_sign_out_twitter"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="StatusTextView"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/twitterStatusTextView"
-        android:layout_above="@+id/twitterDetailTextView"
-        android:layout_alignLeft="@+id/button_sign_out_twitter"
-        android:layout_alignStart="@+id/button_sign_out_twitter"
-        android:layout_marginBottom="55dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="StatusTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/twitterStatusTextView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="DetailTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/twitterDetailTextView"
+            android:layout_alignTop="@+id/twitterStatusTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </LinearLayout>
 
 </RelativeLayout>

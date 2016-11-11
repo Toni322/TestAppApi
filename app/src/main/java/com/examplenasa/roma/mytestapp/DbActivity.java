@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+//import android.widget.Toast;
 
 public class DbActivity extends Activity implements OnClickListener {
 
@@ -69,6 +70,8 @@ public class DbActivity extends Activity implements OnClickListener {
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+
+             //   Toast.makeText(this, "The data was added", Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnRead:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");

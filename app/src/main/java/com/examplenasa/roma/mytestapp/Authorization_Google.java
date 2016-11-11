@@ -28,7 +28,9 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
     Button signOutButton;
     TextView statusTextView;
     GoogleApiClient mGoogleApiClient;
+    Button sqliteButton;
 
+    Intent intent;
 
     public  static final String TAG = "SignActivity";
     public  static final int RC_SIGN_IN = 9001;
@@ -51,25 +53,28 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
         //Google
 
         statusTextView = (TextView) findViewById(R.id.textView);
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton = (SignInButton) findViewById(R.id.button_sign_in_google);
         signInButton.setOnClickListener(this);
 
-        signOutButton = (Button) findViewById(R.id.logout_button);
+        signOutButton = (Button) findViewById(R.id.button_sign_out_google);
         signOutButton.setOnClickListener(this);
 
+        sqliteButton = (Button) findViewById(R.id.button_sqlite);
+        sqliteButton.setOnClickListener(this);
+        intent = new Intent(this,DbActivity.class );
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:
+            case R.id.button_sign_in_google:
                 signIn();
-
                 break;
-            case R.id.logout_button:
-               // signOut();
-                Intent intent = new Intent(this, SheetsGoogle.class);
+            case R.id.button_sign_out_google:
+                signOut();
+                break;
+            case R.id.button_sqlite:
                 startActivity(intent);
                 break;
         }
@@ -79,12 +84,17 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
         Intent signIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signIntent,RC_SIGN_IN);
 
+        findViewById(R.id.button_sign_in_google).setVisibility(View.GONE);
+        findViewById(R.id.button_sign_out_google).setVisibility(View.VISIBLE);
     }
     private void signOut(){
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                statusTextView.setText("Bye");
+                statusTextView.setText(R.string.signed_out);
+
+                findViewById(R.id.button_sign_in_google).setVisibility(View.VISIBLE);
+                findViewById(R.id.button_sign_out_google).setVisibility(View.GONE);
             }
         });
     }

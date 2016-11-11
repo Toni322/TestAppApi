@@ -10,8 +10,9 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
     Button googleLogin;
     Button twitterLogin;
     Button facebookLogin;
-    Button linkedlnLogin;
+    Button googleSheets;
 
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +24,14 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
         twitterLogin.setOnClickListener(this);
         facebookLogin = (Button)findViewById(R.id.button_log_in_facebook);
         facebookLogin.setOnClickListener(this);
-        linkedlnLogin = (Button) findViewById(R.id.button_log_in_linkedin);
-        linkedlnLogin.setOnClickListener(this);
+        googleSheets = (Button) findViewById(R.id.button_goole_sheets);
+        googleSheets.setOnClickListener(this);
     }
 
-    Intent intent;
 
     @Override
     public void onClick(View v) {
-        // по id определеяем кнопку, вызвавшую этот обработчик
+
         switch (v.getId()) {
             case R.id.button_log_in_google:
             intent = new Intent(this, Authorization_Google.class);
@@ -45,8 +45,9 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, Authorization_Twitter.class);
                 startActivity(intent);
                 break;
-            case  R.id.button_log_in_linkedin:
-                //////////
+            case  R.id.button_goole_sheets:
+                intent = new Intent(this, SheetsGoogle.class);
+                startActivity(intent);
                 break;
         }
 
