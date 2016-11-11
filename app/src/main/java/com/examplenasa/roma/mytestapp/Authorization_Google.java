@@ -30,7 +30,6 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
     GoogleApiClient mGoogleApiClient;
     Button sqliteButton;
 
-    Intent intent;
 
     public  static final String TAG = "SignActivity";
     public  static final int RC_SIGN_IN = 9001;
@@ -61,7 +60,6 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
 
         sqliteButton = (Button) findViewById(R.id.button_sqlite);
         sqliteButton.setOnClickListener(this);
-        intent = new Intent(this,DbActivity.class );
     }
 
 
@@ -73,9 +71,6 @@ public class Authorization_Google extends AppCompatActivity implements GoogleApi
                 break;
             case R.id.button_sign_out_google:
                 signOut();
-                break;
-            case R.id.button_sqlite:
-                startActivity(intent);
                 break;
         }
     }

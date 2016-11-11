@@ -11,6 +11,7 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
     Button twitterLogin;
     Button facebookLogin;
     Button googleSheets;
+    Button sqlitebButton;
 
     Intent intent;
 
@@ -26,6 +27,8 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
         facebookLogin.setOnClickListener(this);
         googleSheets = (Button) findViewById(R.id.button_goole_sheets);
         googleSheets.setOnClickListener(this);
+        sqlitebButton = (Button) findViewById(R.id.button_sqlite);
+        sqlitebButton.setOnClickListener(this);
     }
 
 
@@ -47,6 +50,10 @@ public class Auth_buttons extends AppCompatActivity implements View.OnClickListe
                 break;
             case  R.id.button_goole_sheets:
                 intent = new Intent(this, SheetsGoogle.class);
+                startActivity(intent);
+                break;
+            case R.id.button_sqlite:
+                intent = new Intent(this, DbActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-//import android.widget.Toast;
+import android.widget.Toast;
 
 public class DbActivity extends Activity implements OnClickListener {
 
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
-    EditText etName, etEmail;
+    EditText etName, etTeacher;
 
     DBHelper dbHelper;
 
@@ -39,7 +39,7 @@ public class DbActivity extends Activity implements OnClickListener {
         btnClear.setOnClickListener(this);
 
         etName = (EditText) findViewById(R.id.etName);
-        etEmail = (EditText) findViewById(R.id.etEmail);
+        etTeacher = (EditText) findViewById(R.id.etEmail);
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBHelper(this);
@@ -54,7 +54,7 @@ public class DbActivity extends Activity implements OnClickListener {
 
         // получаем данные из полей ввода
         String name = etName.getText().toString();
-        String email = etEmail.getText().toString();
+        String email = etTeacher.getText().toString();
 
         // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -70,8 +70,7 @@ public class DbActivity extends Activity implements OnClickListener {
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
-
-             //   Toast.makeText(this, "The data was added", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnRead:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
