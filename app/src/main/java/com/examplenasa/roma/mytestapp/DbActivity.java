@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 public class DbActivity extends Activity implements OnClickListener {
@@ -20,6 +21,8 @@ public class DbActivity extends Activity implements OnClickListener {
 
     Button btnAdd, btnRead, btnClear;
     EditText etName, etTeacher;
+
+    RatingBar ratingBar;
 
     DBHelper dbHelper;
 
@@ -41,8 +44,10 @@ public class DbActivity extends Activity implements OnClickListener {
         etName = (EditText) findViewById(R.id.etName);
         etTeacher = (EditText) findViewById(R.id.etEmail);
 
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBHelper(this);
+
     }
 
 
@@ -55,7 +60,8 @@ public class DbActivity extends Activity implements OnClickListener {
         // получаем данные из полей ввода
         String name = etName.getText().toString();
         String email = etTeacher.getText().toString();
-
+        float a = ratingBar.getRating();
+        String rating = String.valueOf(a);
         // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -65,17 +71,21 @@ public class DbActivity extends Activity implements OnClickListener {
                 Log.d(LOG_TAG, "--- Insert in mytable: ---");
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
 
+
                 cv.put("name", name);
                 cv.put("email", email);
+                cv.put("rating",rating);
+
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
+
                 Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnRead:
                 Log.d(LOG_TAG, "--- Rows in mytable: ---");
                 // делаем запрос всех данных из таблицы mytable, получаем Cursor
-                Cursor c = db.query("mytable", null, null, null, null, null, null);
+                Cursor c = db.query("mytable", null, null, null, null, null, null, null);
 
                 // ставим позицию курсора на первую строку выборки
                 // если в выборке нет строк, вернется false
@@ -85,13 +95,15 @@ public class DbActivity extends Activity implements OnClickListener {
                     int idColIndex = c.getColumnIndex("id");
                     int nameColIndex = c.getColumnIndex("name");
                     int emailColIndex = c.getColumnIndex("email");
-
+                    int ratingColIndex = c.getColumnIndex("rating");
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
                         Log.d(LOG_TAG,
                                 "ID = " + c.getInt(idColIndex) +
                                         ", name = " + c.getString(nameColIndex) +
-                                        ", email = " + c.getString(emailColIndex));
+                                        ", email = " + c.getString(emailColIndex)+
+                                       ", rating = " + c.getString(ratingColIndex)
+                        );
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
                     } while (c.moveToNext());
@@ -108,6 +120,7 @@ public class DbActivity extends Activity implements OnClickListener {
         }
         // закрываем подключение к БД
         dbHelper.close();
+
     }
 
 
@@ -126,11 +139,21 @@ public class DbActivity extends Activity implements OnClickListener {
             db.execSQL("create table mytable ("
                     + "id integer primary key autoincrement,"
                     + "name text,"
-                    + "email text" + ");");
+                    + "email text,"
+                    + "rating text"
+                    +");");
+
+            ContentValues cvv = new ContentValues();
+            cvv.put("name", "NAMEEE");
+            cvv.put("email", "MAIL");
+            cvv.put("rating", "100");
+
+            db.insert("mytable",null,cvv);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
 
         }
     }

@@ -376,19 +376,20 @@ public class SheetsGoogle extends Activity
             }
             List<Object> myRecc = new ArrayList<Object>();
 
-            myRecc.add("huy, pizda, dada");
+            myRecc.add("eee, pea, dada");
 
                       List<List<Object>> valuuu = new ArrayList<List<Object>>();
-            Object qwe = new Object();
 
-            values.add(myRecc);
+
+            valuuu.add(myRecc);
+
             ValueRange valueRange = new ValueRange();
             valueRange.setValues(valuuu);
 
 //BatchUpdateValuesRequest
 
         //    mService.spreadsheets().values().batchUpdate(spreadsheetId);
-         //  mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
+          // mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
            // mService.spreadsheets().values().update(spreadsheetId,range,valueRange).setValueInputOption("RAW");
 
 
