@@ -60,6 +60,22 @@ public class DbActivity extends Activity implements OnClickListener {
 
     }
 
+    public void setNull(){
+        etUniversity.setText("");
+        etTeacher.setText("");
+        etComment.setText("");
+
+
+        ratingBar1.setRating(0);
+        ratingBar2.setRating(0);
+        ratingBar3.setRating(0);
+        ratingBar4.setRating(0);
+        ratingBar5.setRating(0);
+//        ratingBar2 = (RatingBar) findViewById(R.id.ratingBar2);
+//        ratingBar3 = (RatingBar) findViewById(R.id.ratingBar3);
+//        ratingBar4 = (RatingBar) findViewById(R.id.ratingBar4);
+//        ratingBar5 = (RatingBar) findViewById(R.id.ratingBar5);
+    }
 
     @Override
     public void onClick(View v) {
@@ -98,6 +114,8 @@ public class DbActivity extends Activity implements OnClickListener {
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
 
                 Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+
+                setNull();
 
                 findViewById(R.id.layout_input).setVisibility(View.VISIBLE);
                 findViewById(R.id.list_db).setVisibility(View.GONE);
@@ -151,8 +169,8 @@ public class DbActivity extends Activity implements OnClickListener {
 
 
                     } while (c.moveToNext());
-                } else
-                    Log.d(LOG_TAG, "0 rows");
+                } else{
+                    Log.d(LOG_TAG, "0 rows");}
                 c.close();
 
 
@@ -165,13 +183,14 @@ public class DbActivity extends Activity implements OnClickListener {
 
                findViewById(R.id.layout_input).setVisibility(View.GONE);
                 findViewById(R.id.list_db).setVisibility(View.VISIBLE);
-
+                setNull();
                 break;
             case R.id.btnClear:
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);
                 Log.d(LOG_TAG, "deleted rows count = " + clearCount);
+                setNull();
                 break;
         }
         // закрываем подключение к БД
