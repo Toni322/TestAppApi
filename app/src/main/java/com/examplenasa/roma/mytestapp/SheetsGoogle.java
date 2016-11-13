@@ -326,7 +326,7 @@ public class SheetsGoogle extends Activity
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.sheets.v4.Sheets.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Sheets API Android Quickstart")
+                    .setApplicationName("MyTestAPI")
                     .build();
         }
 
@@ -337,7 +337,6 @@ public class SheetsGoogle extends Activity
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
-                //setDataToApi();
                 return getDataFromApi();
             } catch (Exception e) {
                 mLastError = e;
@@ -356,12 +355,7 @@ public class SheetsGoogle extends Activity
          */
         private List<String> getDataFromApi() throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet!A2:C5";
-
-
-
-
-
+            String range = "Sheet!A1:C20";
 
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
@@ -375,8 +369,6 @@ public class SheetsGoogle extends Activity
                 }
             }
 
-
-//
 //            List<Object> myRecc = new ArrayList<Object>();
 //            List<List<Object>> valuuu = new ArrayList<List<Object>>();
 //            valuuu.add(myRecc);
@@ -386,27 +378,12 @@ public class SheetsGoogle extends Activity
 //BatchUpdateValuesRequest
 
         //    mService.spreadsheets().values().batchUpdate(spreadsheetId);
-          // mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
+        //   mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
            // mService.spreadsheets().values().update(spreadsheetId,range,valueRange).setValueInputOption("RAW");
 
 
 
             return results;
-        }
-
-        BatchUpdateSpreadsheetResponse executeBatchRequest(Request request) throws IOException {
-
-            String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet";
-            List<Request> requests = new ArrayList<>();
-            requests.add( request );
-
-            BatchUpdateSpreadsheetRequest batchRequest = new BatchUpdateSpreadsheetRequest();
-            batchRequest.setRequests( requests );
-
-
-            return  mService.spreadsheets().batchUpdate(spreadsheetId, batchRequest).execute();
-
         }
 
 
