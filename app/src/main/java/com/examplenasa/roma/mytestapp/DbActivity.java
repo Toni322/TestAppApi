@@ -71,10 +71,6 @@ public class DbActivity extends Activity implements OnClickListener {
         ratingBar3.setRating(0);
         ratingBar4.setRating(0);
         ratingBar5.setRating(0);
-//        ratingBar2 = (RatingBar) findViewById(R.id.ratingBar2);
-//        ratingBar3 = (RatingBar) findViewById(R.id.ratingBar3);
-//        ratingBar4 = (RatingBar) findViewById(R.id.ratingBar4);
-//        ratingBar5 = (RatingBar) findViewById(R.id.ratingBar5);
     }
 
     @Override
@@ -145,6 +141,7 @@ public class DbActivity extends Activity implements OnClickListener {
                     int rating3ColIndex = c.getColumnIndex("rating3");
                     int rating4ColIndex = c.getColumnIndex("rating4");
                     int rating5ColIndex = c.getColumnIndex("rating5");
+                    int commentColIndex = c.getColumnIndex("comment");
                     do {
 
                         Log.d(LOG_TAG,
@@ -165,7 +162,8 @@ public class DbActivity extends Activity implements OnClickListener {
                                 ", " + c.getString(rating2ColIndex)+
                                 ", " + c.getString(rating3ColIndex)+
                                 ", " + c.getString(rating4ColIndex)+
-                                ", " + c.getString(rating5ColIndex)+" )");
+                                ", " + c.getString(rating5ColIndex)+" )"+
+                                "\nКоментар: " + c.getString(commentColIndex));
 
 
                     } while (c.moveToNext());
@@ -187,13 +185,14 @@ public class DbActivity extends Activity implements OnClickListener {
                 break;
             case R.id.btnClear:
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
-                // удаляем все записи
                 int clearCount = db.delete("mytable", null, null);
                 Log.d(LOG_TAG, "deleted rows count = " + clearCount);
+                Toast.makeText(this, "Видалено " + clearCount +" записів", Toast.LENGTH_LONG).show();
+
                 setNull();
                 break;
         }
-        // закрываем подключение к БД
+
         dbHelper.close();
 
     }
@@ -203,14 +202,13 @@ public class DbActivity extends Activity implements OnClickListener {
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
-            // конструктор суперкласса
             super(context, "myDB", null, 1);
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             Log.d(LOG_TAG, "--- onCreate database ---");
-            // создаем таблицу с полями
+            // ствоюєм таблицю
             db.execSQL("create table mytable ("
                     + "id integer primary key autoincrement,"
                     + "university text,"
