@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,12 +46,16 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+
+
 public class SheetsGoogle extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mCallApiButton;
     ProgressDialog mProgress;
+
+    final String LOG_TAG = "SheetLog";
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -111,6 +116,8 @@ public class SheetsGoogle extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+  Log.d(LOG_TAG, "On Create");
+
     }
 
 
@@ -355,32 +362,39 @@ public class SheetsGoogle extends Activity
          */
         private List<String> getDataFromApi() throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet!A1:C20";
+            String range = "Sheet!A2:C20";
 
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
                     .get(spreadsheetId, range)
                     .execute();
             List<List<Object>> values = response.getValues();
+
             if (values != null) {
                 results.add("Universe, Teacher, Rating");
                 for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(1)+", " + row.get(2));
+                    results.add(row.get(0) + ", " + row.get(1) + ", " + row.get(2));
                 }
             }
+            Log.d(LOG_TAG, "Read from sheet");
 
-//            List<Object> myRecc = new ArrayList<Object>();
-//            List<List<Object>> valuuu = new ArrayList<List<Object>>();
-//            valuuu.add(myRecc);
-//            ValueRange valueRange = new ValueRange();
-//            valueRange.setValues(valuuu);
 
-//BatchUpdateValuesRequest
+//////////////////////
+            List<List<Object>> myvalue = new ArrayList<>();
+            List<Object> obj = new ArrayList<>();
+            obj.add(0,"one");
+            obj.add(1,"two");
+            obj.add(2,"three");
+            myvalue.add(obj);
 
-        //    mService.spreadsheets().values().batchUpdate(spreadsheetId);
-        //   mService.spreadsheets().values().append(spreadsheetId, "A4:C4",valueRange).setValueInputOption("");
-           // mService.spreadsheets().values().update(spreadsheetId,range,valueRange).setValueInputOption("RAW");
 
+            ValueRange valueRange = new ValueRange();
+            valueRange.setRange("Sheet!A1:C1");
+
+            valueRange.setValues(myvalue);
+
+            mService.spreadsheets().values().append(spreadsheetId, "Sheet!A1:C1",valueRange).setValueInputOption("RAW").execute();
+            Log.d(LOG_TAG, "Write in sheet");
 
 
             return results;
