@@ -35,6 +35,6 @@
 
     <string name="sql_button_text">Sqlite database</string>
 
-    <string name="button_read_from_sheet">Read</string>
-    <string name="button_write_to_sheet">Write</string>
+    <string name="button_read_from_sheet">Покзати \n дані</string>
+    <string name="button_write_to_sheet">Ввести \n данi</string>
 </resources>

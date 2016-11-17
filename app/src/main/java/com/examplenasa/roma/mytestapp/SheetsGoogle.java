@@ -16,6 +16,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.*;
 
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -53,7 +54,8 @@ public class SheetsGoogle extends Activity
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mButtonRead, mButtonWrite;
-    private EditText mEditUser, mEditTeacher;
+    private EditText mEditUser, mEditTeacher, mEditComment;
+    private RatingBar mRatingBar1, mRatingBar2, mRatingBar3, mRatingBar4, mRatingBar5;
 
     ProgressDialog mProgress;
 
@@ -85,9 +87,15 @@ public class SheetsGoogle extends Activity
 
         mEditUser = (EditText) findViewById(R.id.edit_text_username);
         mEditTeacher = (EditText) findViewById(R.id.edit_text_teacher_name);
+        mEditComment = (EditText) findViewById(R.id.edit_text_comment);
+
+        mRatingBar1 = (RatingBar) findViewById(R.id.ratingBar1);
+        mRatingBar2 = (RatingBar) findViewById(R.id.ratingBar2);
+        mRatingBar3 = (RatingBar) findViewById(R.id.ratingBar3);
+        mRatingBar4 = (RatingBar) findViewById(R.id.ratingBar4);
+        mRatingBar5 = (RatingBar) findViewById(R.id.ratingBar5);
 
         mOutputText = (TextView) findViewById(R.id.text_inf_google_sheet);
-
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
@@ -112,6 +120,11 @@ public class SheetsGoogle extends Activity
                 getResultsFromApi();
                 mButtonRead.setEnabled(true);
                 Log.d(LOG_TAG, "Read button");
+
+                findViewById(R.id.input_layout).setVisibility(View.GONE);
+                findViewById(R.id.text_inf_google_sheet).setVisibility(View.VISIBLE);
+
+
                 break;
 
             case R.id.button_write_to_sheet:
@@ -119,14 +132,19 @@ public class SheetsGoogle extends Activity
 
                 String userName = mEditUser.getText().toString();
                 String teacherName = mEditTeacher.getText().toString();
+                float rating1 = mRatingBar1.getRating();
+                float rating2 = mRatingBar2.getRating();
+                float rating3 = mRatingBar3.getRating();
+                float rating4 = mRatingBar4.getRating();
+                float rating5 = mRatingBar5.getRating();
+                String comment = mEditComment.getText().toString();
 
-
-
-
-               // OneReview a = new OneReview(currentDateandTime,teacherName);
-                //setDataRuquestToApi(a);
+                OneReview a = new OneReview(userName,teacherName,rating1,rating2,rating3,rating4,rating5,comment);
+                setDataRuquestToApi(a);
                 Toast.makeText(this,"Success",Toast.LENGTH_LONG);
+
                 Log.d(LOG_TAG, "Write button");
+
                 break;
 
     }
@@ -391,7 +409,7 @@ public class SheetsGoogle extends Activity
          */
         private List<String> getDataFromApi() throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet!A2:C20";
+            String range = "Sheet!A2:I20";
 
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
@@ -400,9 +418,10 @@ public class SheetsGoogle extends Activity
             List<List<Object>> values = response.getValues();
 
             if (values != null) {
-                results.add("Universe, Teacher, Rating");
+
                 for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(1) + ", " + row.get(2));
+                    results.add("Імя користувача: "+row.get(0) + ", Викладач: " + row.get(1) + ", Оцінки(" + row.get(2)+ ", "+ row.get(3)+ ", "+
+                            row.get(4)+ ", "+ row.get(5)+ ", "+ row.get(6)+ "),  дата і час: "+ row.get(7)+ ", коментар: "+ row.get(8)+"\n");
                 }
             }
             Log.d(LOG_TAG, "Read from sheet");
@@ -491,22 +510,30 @@ public class SheetsGoogle extends Activity
          */
         private void setDataToApi(OneReview oneReview) throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-
+            String range = "Sheet!A1:I1";
             List<List<Object>> myvalue = new ArrayList<>();
             List<Object> obj = new ArrayList<>();
 
             obj.add(0,oneReview.getUserName());
             obj.add(1,oneReview.getTeacherName());
-            obj.add(2,1.5);
+            obj.add(2,oneReview.getRating1());
+            obj.add(3,oneReview.getRating2());
+            obj.add(4,oneReview.getRating3());
+            obj.add(5,oneReview.getRating4());
+            obj.add(6,oneReview.getRating5());
+            obj.add(7,oneReview.getCurrentTime());
+            obj.add(8,oneReview.getComment());
+
+
             myvalue.add(obj);
 
 
             ValueRange valueRange = new ValueRange();
-            valueRange.setRange("Sheet!A1:C1");
+            valueRange.setRange(range);
 
             valueRange.setValues(myvalue);
 
-            mService.spreadsheets().values().append(spreadsheetId, "Sheet!A1:C1",valueRange).setValueInputOption("RAW").execute();
+            mService.spreadsheets().values().append(spreadsheetId, range,valueRange).setValueInputOption("RAW").execute();
 
             Log.d(LOG_TAG, "Write in sheet");
 
@@ -550,7 +577,7 @@ public class SheetsGoogle extends Activity
         public String comment;
         public  String currentTime;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 
         public OneReview (String userName, String teacherName, float rating1, float rating2, float rating3, float rating4, float rating5, String comment){
@@ -561,7 +588,7 @@ public class SheetsGoogle extends Activity
             this.rating3 = rating3;
             this.rating4 = rating4;
             this.rating5 = rating5;
-
+            this.comment = comment;
 
             this.currentTime = sdf.format(new Date());
 
