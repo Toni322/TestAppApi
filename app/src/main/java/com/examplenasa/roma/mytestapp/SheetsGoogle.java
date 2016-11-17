@@ -124,7 +124,7 @@ public class SheetsGoogle extends Activity
 
 
                // OneReview a = new OneReview(currentDateandTime,teacherName);
-                setDataRuquestToApi(a);
+                //setDataRuquestToApi(a);
                 Toast.makeText(this,"Success",Toast.LENGTH_LONG);
                 Log.d(LOG_TAG, "Write button");
                 break;
@@ -607,7 +607,9 @@ public class SheetsGoogle extends Activity
         public String getComment() {
             return comment;
         }
-
+        public String getCurrentTime() {
+            return currentTime;
+        }
 
     }
 }
