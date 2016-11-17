@@ -20,6 +20,5 @@ public class MyTestApplication extends Application {
     public void onCreate() {
         FacebookSdk.sdkInitialize(this);
 
-
     }
 }

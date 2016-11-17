@@ -58,7 +58,8 @@ public class DbActivity extends Activity implements OnClickListener {
         ratingBar3 = (RatingBar) findViewById(R.id.ratingBar3);
         ratingBar4 = (RatingBar) findViewById(R.id.ratingBar4);
         ratingBar5 = (RatingBar) findViewById(R.id.ratingBar5);
-        // создаем объект для создания и управления версиями БД
+
+
         dbHelper = new DBHelper(this);
 
     }

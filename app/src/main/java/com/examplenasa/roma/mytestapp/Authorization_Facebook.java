@@ -48,7 +48,6 @@ public class Authorization_Facebook extends BaseActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_aothorization__facebook);
 
         // Views
