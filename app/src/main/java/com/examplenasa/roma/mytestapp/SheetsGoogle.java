@@ -53,8 +53,8 @@ public class SheetsGoogle extends Activity
         implements EasyPermissions.PermissionCallbacks, View.OnClickListener {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mButtonRead, mButtonWrite;
-    private EditText mEditUser, mEditTeacher, mEditComment;
+    private Button mButtonRead, mButtonWrite, mButtonBackToWrite;
+    private EditText mEditUniversity, mEditUser, mEditTeacher, mEditComment;
     private RatingBar mRatingBar1, mRatingBar2, mRatingBar3, mRatingBar4, mRatingBar5;
 
     ProgressDialog mProgress;
@@ -85,6 +85,10 @@ public class SheetsGoogle extends Activity
         mButtonWrite = (Button) findViewById(R.id.button_write_to_sheet);
         mButtonWrite.setOnClickListener(this);
 
+        mButtonBackToWrite = (Button) findViewById(R.id.button_back_to_write);
+        mButtonBackToWrite.setOnClickListener(this);
+
+        mEditUniversity = (EditText)findViewById(R.id.edit_text_university);
         mEditUser = (EditText) findViewById(R.id.edit_text_username);
         mEditTeacher = (EditText) findViewById(R.id.edit_text_teacher_name);
         mEditComment = (EditText) findViewById(R.id.edit_text_comment);
@@ -107,7 +111,10 @@ public class SheetsGoogle extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
-  Log.d(LOG_TAG, "On Create");
+
+        getResultsFromApi();
+
+        Log.d(LOG_TAG, "On Create");
 
     }
 
@@ -123,13 +130,14 @@ public class SheetsGoogle extends Activity
 
                 findViewById(R.id.input_layout).setVisibility(View.GONE);
                 findViewById(R.id.text_inf_google_sheet).setVisibility(View.VISIBLE);
-
-
+                findViewById(R.id.button_write_to_sheet).setVisibility(View.GONE);
+                findViewById(R.id.button_back_to_write).setVisibility(View.VISIBLE);
                 break;
 
             case R.id.button_write_to_sheet:
 
 
+                String university = mEditUniversity.getText().toString();
                 String userName = mEditUser.getText().toString();
                 String teacherName = mEditTeacher.getText().toString();
                 float rating1 = mRatingBar1.getRating();
@@ -137,14 +145,49 @@ public class SheetsGoogle extends Activity
                 float rating3 = mRatingBar3.getRating();
                 float rating4 = mRatingBar4.getRating();
                 float rating5 = mRatingBar5.getRating();
+
+
+
                 String comment = mEditComment.getText().toString();
+                if(comment.trim().length() == 0){
+                    comment = "No comment";
+                }
 
-                OneReview a = new OneReview(userName,teacherName,rating1,rating2,rating3,rating4,rating5,comment);
-                setDataRuquestToApi(a);
-                Toast.makeText(this,"Success",Toast.LENGTH_LONG);
+                boolean key = false;
+                while (key == false) {
+                    if (userName.trim().length() == 0 || university.trim().length() == 0 || teacherName.trim().length() == 0) {
+                        Toast.makeText(this, "Введіть будь ласка навчальний заклад, ваше імя і імя викладача ", Toast.LENGTH_LONG).show();
+                        Log.d(LOG_TAG, "Input data pls");
+                        break;
+                    } else {
 
-                Log.d(LOG_TAG, "Write button");
+                        OneReview a = new OneReview(university, userName, teacherName, rating1, rating2, rating3, rating4, rating5, comment);
+                        setDataRuquestToApi(a);
+                        Toast.makeText(this, "Дані записані успішно", Toast.LENGTH_LONG).show();
+                        Log.d(LOG_TAG, "Write button");
 
+                        key = true;
+
+                mEditUniversity.setText("");
+                mEditUser.setText("");
+                mEditTeacher.setText("");
+                mRatingBar1.setRating(0);
+                mRatingBar2.setRating(0);
+                mRatingBar3.setRating(0);
+                mRatingBar4.setRating(0);
+                mRatingBar5.setRating(0);
+                mEditComment.setText("");
+                    }
+                }
+
+
+                break;
+
+            case R.id.button_back_to_write:
+                findViewById(R.id.input_layout).setVisibility(View.VISIBLE);
+                findViewById(R.id.text_inf_google_sheet).setVisibility(View.GONE);
+                findViewById(R.id.button_write_to_sheet).setVisibility(View.VISIBLE);
+                findViewById(R.id.button_back_to_write).setVisibility(View.GONE);
                 break;
 
     }
@@ -409,7 +452,7 @@ public class SheetsGoogle extends Activity
          */
         private List<String> getDataFromApi() throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet!A2:I20";
+            String range = "Sheet!A2:J20";
 
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
@@ -420,8 +463,8 @@ public class SheetsGoogle extends Activity
             if (values != null) {
 
                 for (List row : values) {
-                    results.add("Імя користувача: "+row.get(0) + ", Викладач: " + row.get(1) + ", Оцінки(" + row.get(2)+ ", "+ row.get(3)+ ", "+
-                            row.get(4)+ ", "+ row.get(5)+ ", "+ row.get(6)+ "),  дата і час: "+ row.get(7)+ ", коментар: "+ row.get(8)+"\n");
+                    results.add("Унівеситет: "+row.get(0) +", Імя користувача: "+row.get(1)+ ", Викладач: " + row.get(2) + ", Оцінки(" + row.get(3)+ ", "+ row.get(4)+ ", "+
+                            row.get(5)+ ", "+ row.get(6)+ ", "+ row.get(7)+ "),  дата і час: "+ row.get(8)+ ", коментар: "+ row.get(9)+"\n");
                 }
             }
             Log.d(LOG_TAG, "Read from sheet");
@@ -443,7 +486,6 @@ public class SheetsGoogle extends Activity
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Sheets API:");
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }
@@ -510,19 +552,20 @@ public class SheetsGoogle extends Activity
          */
         private void setDataToApi(OneReview oneReview) throws IOException {
             String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
-            String range = "Sheet!A1:I1";
+            String range = "Sheet!A1:J1";
             List<List<Object>> myvalue = new ArrayList<>();
             List<Object> obj = new ArrayList<>();
 
-            obj.add(0,oneReview.getUserName());
-            obj.add(1,oneReview.getTeacherName());
-            obj.add(2,oneReview.getRating1());
-            obj.add(3,oneReview.getRating2());
-            obj.add(4,oneReview.getRating3());
-            obj.add(5,oneReview.getRating4());
-            obj.add(6,oneReview.getRating5());
-            obj.add(7,oneReview.getCurrentTime());
-            obj.add(8,oneReview.getComment());
+            obj.add(0,oneReview.getUniversity());
+            obj.add(1,oneReview.getUserName());
+            obj.add(2,oneReview.getTeacherName());
+            obj.add(3,oneReview.getRating1());
+            obj.add(4,oneReview.getRating2());
+            obj.add(5,oneReview.getRating3());
+            obj.add(6,oneReview.getRating4());
+            obj.add(7,oneReview.getRating5());
+            obj.add(8,oneReview.getCurrentTime());
+            obj.add(9,oneReview.getComment());
 
 
             myvalue.add(obj);
@@ -565,6 +608,9 @@ public class SheetsGoogle extends Activity
 
 
     private class OneReview {
+
+
+        public String university;
         public String userName;
         public String teacherName;
 
@@ -580,7 +626,8 @@ public class SheetsGoogle extends Activity
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 
-        public OneReview (String userName, String teacherName, float rating1, float rating2, float rating3, float rating4, float rating5, String comment){
+        public OneReview (String university, String userName, String teacherName, float rating1, float rating2, float rating3, float rating4, float rating5, String comment){
+            this.university = university;
             this.userName = userName;
             this.teacherName = teacherName;
             this.rating1 = rating1;
@@ -599,17 +646,15 @@ public class SheetsGoogle extends Activity
             return userName;
         }
 
-        public void setUserName(String userName) {
-            this.userName = userName;
+        public String getUniversity() {
+            return university;
         }
+
 
         public String getTeacherName() {
             return teacherName;
         }
 
-        public void setTeacherName(String teacherName) {
-            this.teacherName = teacherName;
-        }
 
         public float getRating1() {
             return rating1;

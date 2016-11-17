@@ -3,49 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:text="Press Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/text_inf_google_sheet"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="gone" />
+        android:layout_marginBottom="60dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <Button
-            android:text="@string/button_read_from_sheet"
-            android:layout_width="wrap_content"
+        <TextView
+            android:text="Press Button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button_read_from_sheet"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="@string/button_write_to_sheet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_write_to_sheet"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/text_inf_google_sheet"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="gone" />
+    </ScrollView>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -60,6 +38,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:text="Навчальний заклад:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView17" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/edit_text_university" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -107,7 +108,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
-                    android:layout_marginTop="22dp"
                     android:id="@+id/edit_text_teacher_name"
                     android:layout_below="@+id/edit_text_username"
                     android:layout_alignLeft="@+id/edit_text_username"
@@ -133,7 +133,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar1"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    android:layout_marginRight="50dp" />
             </TableRow>
 
             <TableRow
@@ -155,7 +156,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar2"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    android:layout_marginRight="50dp" />
             </TableRow>
 
             <TableRow
@@ -177,7 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar3"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    android:layout_marginRight="50dp" />
             </TableRow>
 
             <TableRow
@@ -199,7 +202,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar4"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    android:layout_marginRight="50dp" />
             </TableRow>
 
             <TableRow
@@ -221,7 +225,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ratingBar5"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    android:layout_marginRight="50dp" />
             </TableRow>
 
             <TableRow
@@ -229,7 +234,7 @@
                 android:layout_height="match_parent" >
 
                 <TextView
-                    android:text="Коментар"
+                    android:text="Коментар:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView16" />
@@ -250,5 +255,37 @@
 
         </TableLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:text="@string/button_read_from_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_read_from_sheet"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="@string/button_write_to_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_write_to_sheet"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="@string/button_back_to_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_back_to_write"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </RelativeLayout>
