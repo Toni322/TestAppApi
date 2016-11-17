@@ -34,5 +34,7 @@
     <string name="title_activity_authorization__twitter">Authorization_Twitter</string>
 
     <string name="sql_button_text">Sqlite database</string>
-    
+
+    <string name="button_read_from_sheet">Read</string>
+    <string name="button_write_to_sheet">Write</string>
 </resources>

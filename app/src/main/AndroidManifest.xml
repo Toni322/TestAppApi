@@ -56,7 +56,7 @@
         <activity android:name=".Authorization_Twitter" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".SheetsGoogle" />
-        <activity android:name=".DbActivity"></activity>
+        <activity android:name=".DbActivity" />
     </application>
 
 </manifest>

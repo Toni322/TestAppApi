@@ -23,7 +23,7 @@ public class DbActivity extends Activity implements OnClickListener {
 
     final String LOG_TAG = "myLogs";
 
-    Button btnAdd, btnRead, btnClear;
+    Button btnAdd, btnRead, btnClear, btnBack;
     EditText etUniversity, etTeacher, etComment;
 
     RatingBar ratingBar1, ratingBar2, ratingBar3, ratingBar4, ratingBar5;
@@ -44,6 +44,9 @@ public class DbActivity extends Activity implements OnClickListener {
 
         btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
+
+        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
 
         etUniversity = (EditText) findViewById(R.id.etUniversity);
         etTeacher = (EditText) findViewById(R.id.etEmail);
@@ -109,7 +112,7 @@ public class DbActivity extends Activity implements OnClickListener {
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
 
-                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Дані успішно додано", Toast.LENGTH_LONG).show();
 
                 setNull();
 
@@ -179,10 +182,12 @@ public class DbActivity extends Activity implements OnClickListener {
                 //адаптер списку
                 lvMain.setAdapter(adapter);
 
-               findViewById(R.id.layout_input).setVisibility(View.GONE);
+                findViewById(R.id.layout_input).setVisibility(View.GONE);
                 findViewById(R.id.list_db).setVisibility(View.VISIBLE);
+                findViewById(R.id.btnBack).setVisibility(View.VISIBLE);
                 setNull();
                 break;
+
             case R.id.btnClear:
                 Log.d(LOG_TAG, "--- Clear mytable: ---");
                 int clearCount = db.delete("mytable", null, null);
@@ -190,6 +195,11 @@ public class DbActivity extends Activity implements OnClickListener {
                 Toast.makeText(this, "Видалено " + clearCount +" записів", Toast.LENGTH_LONG).show();
 
                 setNull();
+                break;
+            case  R.id.btnBack:
+                findViewById(R.id.layout_input).setVisibility(View.VISIBLE);
+                findViewById(R.id.list_db).setVisibility(View.GONE);
+                findViewById(R.id.btnBack).setVisibility(View.GONE);
                 break;
         }
 

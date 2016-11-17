@@ -6,7 +6,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
-import com.google.api.client.googleapis.notifications.ResourceStates;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -16,6 +15,8 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 
 import com.google.api.services.sheets.v4.model.*;
 
+import android.widget.EditText;
+import android.widget.Toast;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -30,17 +31,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -49,10 +49,12 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class SheetsGoogle extends Activity
-        implements EasyPermissions.PermissionCallbacks {
+        implements EasyPermissions.PermissionCallbacks, View.OnClickListener {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+    private Button mButtonRead, mButtonWrite;
+    private EditText mEditUser, mEditTeacher;
+
     ProgressDialog mProgress;
 
     final String LOG_TAG = "SheetLog";
@@ -62,7 +64,6 @@ public class SheetsGoogle extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Sheets API";
     private static final String PREF_ACCOUNT_NAME = "starikhottabichrom";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
 
@@ -73,53 +74,63 @@ public class SheetsGoogle extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
+        setContentView(R.layout.activity_sheets_google);
 
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
-        activityLayout.addView(mCallApiButton);
+        mButtonRead = (Button) findViewById(R.id.button_read_from_sheet);
+        mButtonRead.setOnClickListener(this);
 
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
+        mButtonWrite = (Button) findViewById(R.id.button_write_to_sheet);
+        mButtonWrite.setOnClickListener(this);
+
+        mEditUser = (EditText) findViewById(R.id.edit_text_username);
+        mEditTeacher = (EditText) findViewById(R.id.edit_text_teacher_name);
+
+        mOutputText = (TextView) findViewById(R.id.text_inf_google_sheet);
+
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
 
-        setContentView(activityLayout);
+ ;
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
   Log.d(LOG_TAG, "On Create");
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_read_from_sheet:
+                mButtonRead.setEnabled(false);
+                mOutputText.setText("");
+                getResultsFromApi();
+                mButtonRead.setEnabled(true);
+                Log.d(LOG_TAG, "Read button");
+                break;
+
+            case R.id.button_write_to_sheet:
+
+
+                String userName = mEditUser.getText().toString();
+                String teacherName = mEditTeacher.getText().toString();
+
+
+
+
+               // OneReview a = new OneReview(currentDateandTime,teacherName);
+                setDataRuquestToApi(a);
+                Toast.makeText(this,"Success",Toast.LENGTH_LONG);
+                Log.d(LOG_TAG, "Write button");
+                break;
+
+    }
+        }
 
 
     /**
@@ -140,6 +151,19 @@ public class SheetsGoogle extends Activity
             new MakeRequestTask(mCredential).execute();
         }
     }
+
+    private void setDataRuquestToApi(OneReview oneReview) {
+        if (! isGooglePlayServicesAvailable()) {
+            acquireGooglePlayServices();
+        } else if (mCredential.getSelectedAccountName() == null) {
+            chooseAccount();
+        } else if (! isDeviceOnline()) {
+            mOutputText.setText("No network connection available.");
+        } else {
+            new MakeWriteRequestTask(mCredential).execute(oneReview);
+        }
+    }
+
 
     /**
      * Attempts to set the account used with the API credentials. If an account
@@ -319,6 +343,11 @@ public class SheetsGoogle extends Activity
         dialog.show();
     }
 
+
+
+
+
+
     /**
      * An asynchronous task that handles the Google Sheets API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -378,27 +407,9 @@ public class SheetsGoogle extends Activity
             }
             Log.d(LOG_TAG, "Read from sheet");
 
-
-//////////////////////
-            List<List<Object>> myvalue = new ArrayList<>();
-            List<Object> obj = new ArrayList<>();
-            obj.add(0,"one");
-            obj.add(1,"two");
-            obj.add(2,"three");
-            myvalue.add(obj);
-
-
-            ValueRange valueRange = new ValueRange();
-            valueRange.setRange("Sheet!A1:C1");
-
-            valueRange.setValues(myvalue);
-
-            mService.spreadsheets().values().append(spreadsheetId, "Sheet!A1:C1",valueRange).setValueInputOption("RAW").execute();
-            Log.d(LOG_TAG, "Write in sheet");
-
-
             return results;
         }
+
 
 
         @Override
@@ -438,6 +449,166 @@ public class SheetsGoogle extends Activity
                 mOutputText.setText("Request cancelled.");
             }
         }
+    }
+
+    private class MakeWriteRequestTask extends AsyncTask<OneReview, Void, Void> {
+        private com.google.api.services.sheets.v4.Sheets mService = null;
+        private Exception mLastError = null;
+
+        public MakeWriteRequestTask(GoogleAccountCredential credential) {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            mService = new com.google.api.services.sheets.v4.Sheets.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName("MyTestAPI")
+                    .build();
+
+        }
+
+        /**
+         * Background task to call Google Sheets API.
+         * @param params no parameters needed for this task.
+         */
+        @Override
+        protected Void doInBackground(OneReview... params) {
+            try {
+                 setDataToApi(params[0]);
+            } catch (Exception e) {
+                mLastError = e;
+                cancel(true);
+            }
+            return null;
+        }
+
+
+
+        /**
+         * Fetch a list of names and majors of students in a sample spreadsheet:
+         * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+         * @return List of names and majors
+         * @throws IOException
+         * @param oneReview
+         */
+        private void setDataToApi(OneReview oneReview) throws IOException {
+            String spreadsheetId = "1J03H-yudUHAA2gGvgYOAPvQNzwRNTn2faYjaqHo-Dc4";
+
+            List<List<Object>> myvalue = new ArrayList<>();
+            List<Object> obj = new ArrayList<>();
+
+            obj.add(0,oneReview.getUserName());
+            obj.add(1,oneReview.getTeacherName());
+            obj.add(2,1.5);
+            myvalue.add(obj);
+
+
+            ValueRange valueRange = new ValueRange();
+            valueRange.setRange("Sheet!A1:C1");
+
+            valueRange.setValues(myvalue);
+
+            mService.spreadsheets().values().append(spreadsheetId, "Sheet!A1:C1",valueRange).setValueInputOption("RAW").execute();
+
+            Log.d(LOG_TAG, "Write in sheet");
+
+        }
+
+
+
+        @Override
+        protected void onCancelled() {
+            mProgress.hide();
+            if (mLastError != null) {
+                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
+                    showGooglePlayServicesAvailabilityErrorDialog(
+                            ((GooglePlayServicesAvailabilityIOException) mLastError)
+                                    .getConnectionStatusCode());
+                } else if (mLastError instanceof UserRecoverableAuthIOException) {
+                    startActivityForResult(
+                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
+                            SheetsGoogle.REQUEST_AUTHORIZATION);
+                } else {
+                    mOutputText.setText("The following error occurred:\n"
+                            + mLastError.getMessage());
+                }
+            } else {
+                mOutputText.setText("Request cancelled.");
+            }
+        }
+    }
+
+
+    private class OneReview {
+        public String userName;
+        public String teacherName;
+
+        public float rating1;
+        public float rating2;
+        public float rating3;
+        public float rating4;
+        public float rating5;
+
+        public String comment;
+        public  String currentTime;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+
+        public OneReview (String userName, String teacherName, float rating1, float rating2, float rating3, float rating4, float rating5, String comment){
+            this.userName = userName;
+            this.teacherName = teacherName;
+            this.rating1 = rating1;
+            this.rating2 = rating2;
+            this.rating3 = rating3;
+            this.rating4 = rating4;
+            this.rating5 = rating5;
+
+
+            this.currentTime = sdf.format(new Date());
+
+        }
+
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getTeacherName() {
+            return teacherName;
+        }
+
+        public void setTeacherName(String teacherName) {
+            this.teacherName = teacherName;
+        }
+
+        public float getRating1() {
+            return rating1;
+        }
+
+        public float getRating2() {
+            return rating2;
+        }
+
+        public float getRating3() {
+            return rating3;
+        }
+
+        public float getRating4() {
+            return rating4;
+        }
+
+        public float getRating5() {
+            return rating5;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+
     }
 }
 
